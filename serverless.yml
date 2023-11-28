@@ -1,11 +1,3 @@
-service: serverlesswp-wordpress-starter
-
-provider:
-  name: aws
-  runtime: nodejs18.x
-  httpApi:
-    payload: '2.0'
-
 functions:
   requestHandler:
     handler: api/index.handler
@@ -15,6 +7,17 @@ functions:
       - httpApi:
           method: any
           path: /{proxy+}
+    environment:
+      # ... your environment variables
+
+  installHandler:
+    handler: api/install.handler
+    memorySize: 1024
+    timeout: 30  # Set a higher timeout for the installation path
+    events:
+      - httpApi:
+          method: any
+          path: /wp-admin/install.php
     environment:
       #DATABASE: ''
       #USERNAME: ''
